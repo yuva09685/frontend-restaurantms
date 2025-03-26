@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { TextField, Button, Typography, Container, Box, Snackbar, Alert } from "@mui/material";
+import { TextField, Button, Typography, Container, Box, Snackbar, Alert, Link, Card, CardContent } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
 import { loginUser } from "@/store/slices/authSlice";
@@ -14,7 +14,7 @@ const LoginForm = () => {
 
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
-  const { loading, error, user } = useSelector((state: RootState) => state.auth);
+  const { loading, error } = useSelector((state: RootState) => state.auth);
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -38,43 +38,56 @@ const LoginForm = () => {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Box sx={{ textAlign: "center", mt: 5 }}>
-        <Typography variant="h5" gutterBottom>Login</Typography>
+    <Container maxWidth="xs" sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+      <Card sx={{ p: 4, width: "100%", boxShadow: 3, borderRadius: 2 }}>
+        <CardContent>
+          <Box sx={{ textAlign: "center", mb: 2 }}>
+            <Typography variant="h4" fontWeight="bold" color="primary">Restaurant user</Typography>
+            <Typography variant="h5" gutterBottom>Login</Typography>
+          </Box>
 
-        <TextField
-          fullWidth
-          label="Email"
-          type="email"
-          variant="outlined"
-          margin="normal"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+          <TextField
+            fullWidth
+            label="Email"
+            type="email"
+            variant="outlined"
+            margin="normal"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
 
-        <TextField
-          fullWidth
-          label="Password"
-          type="password"
-          variant="outlined"
-          margin="normal"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+          <TextField
+            fullWidth
+            label="Password"
+            type="password"
+            variant="outlined"
+            margin="normal"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
-        {error && <Typography color="error">{error}</Typography>}
+          {error && <Typography color="error">{error}</Typography>}
 
-        <Button
-          variant="contained"
-          color="primary"
-          fullWidth
-          onClick={handleLogin}
-          sx={{ mt: 2 }}
-          disabled={loading}
-        >
-          {loading ? "Logging in..." : "Login"}
-        </Button>
-      </Box>
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth
+            onClick={handleLogin}
+            sx={{ mt: 2 }}
+            disabled={loading}
+          >
+            {loading ? "Logging in..." : "Login"}
+          </Button>
+
+          {/* Signup link */}
+          <Typography variant="body2" sx={{ mt: 2, textAlign: "center" }}>
+            Don't have an account?{" "}
+            <Link href="/signup" sx={{ cursor: "pointer", color: "primary.main" }}>
+              Sign up
+            </Link>
+          </Typography>
+        </CardContent>
+      </Card>
 
       <Snackbar open={!!successMessage} autoHideDuration={3000} onClose={() => setSuccessMessage(null)}>
         <Alert severity="success" sx={{ width: "100%" }}>
